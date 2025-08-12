@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Real-Time KPI Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    table { border-collapse: collapse; width: 80%; }
+    th, td { padding: 8px 12px; border: 1px solid #ddd; text-align: left; }
+    th { background: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h1>Real-Time KPI Dashboard</h1>
+  <p>Latest aggregated window results (category metrics)</p>
+  {% if rows %}
+    <table>
+      <thead>
+        <tr><th>window_start</th><th>window_end</th><th>category</th><th>total_sales</th><th>total_units</th><th>orders</th></tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+          <tr>
+            <td>{{ r.window_start }}</td>
+            <td>{{ r.window_end }}</td>
+            <td>{{ r.category }}</td>
+            <td>{{ "%.2f"|format(r.total_sales if r.total_sales is not none else 0) }}</td>
+            <td>{{ r.total_units }}</td>
+            <td>{{ r.orders }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No aggregates yet. Start the producer and the Spark job.</p>
+  {% endif %}
+</body>
+</html>
